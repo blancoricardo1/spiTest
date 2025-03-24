@@ -5,13 +5,13 @@
 
 LOG_MODULE_REGISTER(main);
 
-void main(void)
+int main(void)
 {
     const struct device *spi_dev = DEVICE_DT_GET(DT_NODELABEL(spi1));
 
     if (!device_is_ready(spi_dev)) {
         LOG_ERR("SPI device not ready!");
-        return;
+        return 1;
     }
 
     struct spi_config spi_cfg = {
@@ -21,8 +21,9 @@ void main(void)
         .cs = NULL,  // If you don't have a chip-select GPIO, or manage it manually
     };
 
-    uint8_t tx_buf_data[] = {0xAA, 0xBB};  // Example command
-    uint8_t rx_buf_data[2] = {0};
+    uint8_t tx_buf_data[] = {0xDE, 0xAD};
+    uint8_t rx_buf_data[2] = {0x00, 0x00};
+    
 
     struct spi_buf tx_buf = {
         .buf = tx_buf_data,
@@ -48,4 +49,5 @@ void main(void)
     } else {
         LOG_INF("Received: 0x%02X 0x%02X", rx_buf_data[0], rx_buf_data[1]);
     }
+    return 0;
 }
