@@ -1,0 +1,10 @@
+&spi1 {
+    status = "okay";
+    cs-gpios = <&gpio0 15 GPIO_ACTIVE_LOW>; /* Chip Select pin */
+
+    generic_spi_device: generic_spi_device@0 {
+        compatible = "spi-device";
+        reg = <0>; /* Slave ID */
+        spi-max-frequency = <1000000>;
+    };
+};
